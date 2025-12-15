@@ -58,10 +58,12 @@ impl SpeechRecognizer {
         // println!("Vosk Raw Result: {:?}", result);
 
         if let Some(single) = result.single() {
-            println!("Vosk Result Text: '{}'", single.text);
+            if !single.text.is_empty() {
+                println!("Vosk Result Text: '{}'", single.text);
+            }
             single.text.to_string()
         } else {
-            println!("Vosk Result: No single result");
+            // println!("Vosk Result: No single result");
             String::new()
         }
     }

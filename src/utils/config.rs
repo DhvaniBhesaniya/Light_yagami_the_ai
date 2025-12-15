@@ -46,7 +46,7 @@ impl Default for VoiceConfig {
         Self {
             tts_engine: "kokoro".to_string(),
             stt_engine: "vosk".to_string(),
-            voice_model_path: "~/.vosk/vosk-model-small-en-us-0.15".to_string(),
+            voice_model_path: "~/.vosk/vosk-model-en-in-0.5".to_string(),
             tts_model_path: "~/.light_yagami/models/kokoro-v1.0.onnx".to_string(),
             sample_rate: 16000,
         }

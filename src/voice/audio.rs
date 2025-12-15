@@ -27,22 +27,22 @@ impl AudioRecorder {
                 &config.into(),
                 move |data: &[i16], _: &_| {
                     if !data.is_empty() {
-                        // Apply gain to i16 data
-                        let gain = 3.0;
-                        let amplified_data: Vec<i16> = data
-                            .iter()
-                            .map(|&x| {
-                                ((x as f32 * gain).clamp(i16::MIN as f32, i16::MAX as f32)) as i16
-                            })
-                            .collect();
-                        // let max_amp = data.iter().map(|&x| x.abs()).max().unwrap_or(0);
-                        // // Always log for now to debug silence
-                        // println!(
-                        //     "Audio Input (I16): {} samples, Max Amp: {}",
-                        //     data.len(),
-                        //     max_amp
-                        // );
-                        let _ = sender.send(amplified_data);
+                        // Noise gate: Check if max amplitude exceeds threshold
+                        let max_amp = data.iter().map(|&x| x.abs()).max().unwrap_or(0);
+                        let threshold = 500; // Adjust as needed
+
+                        if max_amp > threshold {
+                            // Apply gain to i16 data
+                            let gain = 5.0;
+                            let amplified_data: Vec<i16> = data
+                                .iter()
+                                .map(|&x| {
+                                    ((x as f32 * gain).clamp(i16::MIN as f32, i16::MAX as f32))
+                                        as i16
+                                })
+                                .collect();
+                            let _ = sender.send(amplified_data);
+                        }
                     }
                 },
                 err_fn,
@@ -52,23 +52,24 @@ impl AudioRecorder {
                 &config.into(),
                 move |data: &[f32], _: &_| {
                     if !data.is_empty() {
-                        // let max_amp_f32 = data.iter().map(|&x| x.abs()).fold(0.0, f32::max);
-                        // if max_amp_f32 > 0.01 {
-                        //     println!("Audio Input (F32): Max Amp: {:.4}", max_amp_f32);
-                        // }
+                        // Noise gate
+                        let max_amp_f32 = data.iter().map(|&x| x.abs()).fold(0.0, f32::max);
+                        let threshold_f32 = 0.02; // Adjust as needed
 
-                        // Apply gain and convert f32 to i16
-                        let gain = 3.0;
-                        let i16_data: Vec<i16> = data
-                            .iter()
-                            .map(|&x| {
-                                let amplified = x * gain;
-                                let clamped = amplified.clamp(-1.0, 1.0);
-                                (clamped * i16::MAX as f32) as i16
-                            })
-                            .collect();
+                        if max_amp_f32 > threshold_f32 {
+                            // Apply gain and convert f32 to i16
+                            let gain = 5.0;
+                            let i16_data: Vec<i16> = data
+                                .iter()
+                                .map(|&x| {
+                                    let amplified = x * gain;
+                                    let clamped = amplified.clamp(-1.0, 1.0);
+                                    (clamped * i16::MAX as f32) as i16
+                                })
+                                .collect();
 
-                        let _ = sender.send(i16_data);
+                            let _ = sender.send(i16_data);
+                        }
                     }
                 },
                 err_fn,
