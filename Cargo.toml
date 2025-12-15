@@ -1,0 +1,13 @@
+[package]
+name = "Light_yagami_the_ai"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Repository: https://github.com/tinygrad/llama-cpp-rs
+# Docs: https://docs.rs/llama_cpp
+llama_cpp = "0.3.2"  # # The crate builds llama.cpp from source automatically
+
+
+# Repository: https://github.com/alphacep/vosk-api
+# Crate: https://crates.io/crates/vosk
