@@ -1,0 +1,47 @@
+# Light Yagami AI - Project Information
+
+## Project Status
+- **Current Phase:** Phase 1 (Foundation) - In Progress/Refactoring
+- **Last Action:** User refactored project structure (moved files to `src/utils`) and updated logger implementation.
+
+## Dependencies (Libraries)
+
+### Core
+- `tokio` (1.35): Async runtime.
+- `anyhow` (1.0): Error handling.
+- `thiserror` (1.0): Error handling.
+- `log` (0.4): Logging facade.
+- `env_logger` (0.11): Logging implementation (Previous).
+- `log4rs` (1.3): Logging implementation.
+- `lazy_static` (1.4): Global static variables.
+- `serde` (1.0): Serialization/Deserialization.
+- `toml` (0.8): TOML parsing.
+- `dirs` (5.0): System directory paths.
+- `chrono` (0.4): Date and time.
+- `regex` (1.10): Regular expressions.
+- `uuid` (1.6): Unique IDs.
+
+### AI & Voice
+- `llama_cpp` (0.3.2): Rust bindings for llama.cpp (LLM inference).
+- `vosk` (0.3.1): Offline speech recognition.
+- `kokoro-tts` (0.3.1): Offline text-to-speech.
+- `cpal` (0.16.0): Audio I/O.
+- `hound` (3.5): WAV file handling.
+
+### CLI & UI
+- `clap` (4.4): Command line argument parsing.
+- `ratatui` (0.26): Terminal UI.
+
+### Network & Data
+- `reqwest` (0.11): HTTP client.
+- `rusqlite` (0.30): SQLite database.
+
+## Models (Planned/Downloaded)
+- **LLM:** Mistral 7B (Quantized GGUF) - To be stored in `~/.light_yagami/models/`
+- **STT:** Vosk Model Small (English US) - To be stored in `~/.vosk/`
+- **TTS:** Kokoro Model - To be stored in `~/.light_yagami/voices/`
+
+## Future Plans
+- **Phase 2:** Implement LLM inference using `llama_cpp`.
+- **Phase 3:** Implement Voice I/O using `vosk` and `kokoro-tts`.
+- **Phase 4:** Plugin system.
