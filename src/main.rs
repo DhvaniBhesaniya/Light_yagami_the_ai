@@ -3,6 +3,7 @@ use light_yagami_the_ai::utils::{
     cli::{Cli, Commands, ConfigCommands},
     config::Config,
     logger,
+    ui::Loader,
 };
 use log::{error, info};
 
@@ -136,14 +137,20 @@ async fn run_chat_mode(engine: &LLMEngine) -> anyhow::Result<()> {
         print!("<< AI --->: ");
         io::stdout().flush()?;
 
-        let res = engine.stream(input, |token| {
-            print!("{}", token);
-            io::stdout().flush().unwrap_or(());
-            true
-        });
+        let mut loader = Loader::new("Analyzing your question..., gathering the answer...");
+        loader.start();
 
-        if let Err(e) = res {
-            error!("Error generating response: {}", e);
+        let res = engine.predict(input);
+        
+        loader.stop();
+
+        match res {
+            Ok(response) => {
+                println!("<< AI --->: {}", response);
+            }
+            Err(e) => {
+                error!("Error generating response: {}", e);
+            }
         }
         println!(); // Newline after response
     }
@@ -207,9 +214,16 @@ async fn run_voice_mode(engine: &LLMEngine, config: &Config) -> anyhow::Result<(
                     println!("User: {}", text);
 
                     println!("AI is thinking...");
-                    match engine.predict(&text) {
+                    let mut loader = Loader::new("Analyzing your question..., gathering the answer...");
+                    loader.start();
+                    
+                    let res = engine.predict(&text);
+                    
+                    loader.stop();
+
+                    match res {
                         Ok(response) => {
-                            println!("AI: {}", response);
+                            println!("<< AI --->: {}", response);
                             match tts.speak(&response).await {
                                 Ok(samples) => {
                                     if let Err(e) = player.play(samples) {
