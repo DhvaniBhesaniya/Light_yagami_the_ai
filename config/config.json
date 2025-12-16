@@ -12,5 +12,8 @@
     "roller_base_start": 1,
     "roller_max_count": 999,
     "roller_filepath_pattern": "logs/LogsFiles/All-Logs_{}.log"
-  }
+  },
+  "laamaModelPath": "~/.light_yagami/models/mistral-7b-q4_k_m.gguf",
+  "voiceModelPath": "~/.vosk/vosk-model-en-in-0.5",
+  "voiceTtsModelPath": "~/.light_yagami/models/kokoro-v1.0.onnx"
 }

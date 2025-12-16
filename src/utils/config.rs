@@ -1,14 +1,16 @@
 use serde::Deserialize;
 // use std::path::PathBuf;
 use anyhow::Result;
-use std::fs;
+// use std::fs;
+
+use crate::configuration;
 
 #[derive(Debug, Deserialize, Default)]
 pub struct Config {
     pub llm: LlmConfig,
     pub voice: VoiceConfig,
     pub plugins: PluginsConfig,
-    pub system: SystemConfig,
+    // pub system: SystemConfig,
 }
 
 #[derive(Debug, Deserialize)]
@@ -23,7 +25,7 @@ pub struct LlmConfig {
 impl Default for LlmConfig {
     fn default() -> Self {
         Self {
-            model_path: "~/.light_yagami/models/mistral-7b-q4_k_m.gguf".to_string(),
+            model_path: configuration::get::<String>("laamaModelPath"),
             max_context: 8192,
             temperature: 0.7,
             top_p: 0.9,
@@ -46,8 +48,8 @@ impl Default for VoiceConfig {
         Self {
             tts_engine: "kokoro".to_string(),
             stt_engine: "vosk".to_string(),
-            voice_model_path: "~/.vosk/vosk-model-en-in-0.5".to_string(),
-            tts_model_path: "~/.light_yagami/models/kokoro-v1.0.onnx".to_string(),
+            voice_model_path: configuration::get::<String>("voiceModelPath"),
+            tts_model_path: configuration::get::<String>("voiceTtsModelPath"),
             sample_rate: 16000,
         }
     }
@@ -58,35 +60,35 @@ pub struct PluginsConfig {
     pub enabled: Vec<String>,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct SystemConfig {
-    pub log_path: String,
-    pub db_path: String,
-}
+// #[derive(Debug, Deserialize)]
+// pub struct SystemConfig {
+//     pub log_path: String,
+//     pub db_path: String,
+// }
 
-impl Default for SystemConfig {
-    fn default() -> Self {
-        Self {
-            log_path: "~/.light_yagami/logs".to_string(),
-            db_path: "~/.light_yagami/data.db".to_string(),
-        }
-    }
-}
+// impl Default for SystemConfig {
+//     fn default() -> Self {
+//         Self {
+//             log_path: "~/.light_yagami/logs".to_string(),
+//             db_path: "~/.light_yagami/data.db".to_string(),
+//         }
+//     }
+// }
 
 impl Config {
     pub fn load() -> Result<Self> {
-        let config_path = dirs::home_dir()
-            .ok_or_else(|| anyhow::anyhow!("Could not find home directory"))?
-            .join(".light_yagami/config.toml");
+        // let config_path = dirs::home_dir()
+        //     .ok_or_else(|| anyhow::anyhow!("Could not find home directory"))?
+        //     .join(".light_yagami/config.toml");
 
-        if !config_path.exists() {
-            // Return default config if file doesn't exist
-            // In a real app, we might want to create the default file here
-            return Ok(Config::default());
-        }
+        // if !config_path.exists() {
+        // Return default config if file doesn't exist
+        // In a real app, we might want to create the default file here
+        return Ok(Config::default());
+        // }
 
-        let content = fs::read_to_string(config_path)?;
-        let config: Config = toml::from_str(&content)?;
-        Ok(config)
+        // let content = fs::read_to_string(config_path)?;
+        // let config: Config = toml::from_str(&content)?;
+        // Ok(config)
     }
 }

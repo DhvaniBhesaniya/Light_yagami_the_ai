@@ -15,7 +15,7 @@ pub fn get_config() -> Config {
         // Note that this file is _optional_
         .add_source(File::with_name(&format!("config/config-{}", run_mode)).required(false))
         // Add in the constants file
-        .add_source(File::with_name("config/constants.json"))
+        // .add_source(File::with_name("config/constants.json"))
         // Add in a local configuration file
         // This file shouldn't be checked in to git
         .add_source(env_settings.prefix("app").separator("_"))

@@ -1,7 +1,8 @@
 [package]
-name = "Light_yagami_the_ai"
+name = "light_yagami_the_ai"
 version = "0.1.0"
 edition = "2024"
+default-run = "light_yagami_the_ai"
 
 [dependencies]
 # Core async runtime
@@ -46,9 +47,10 @@ uuid = { version = "1.6", features = ["v4", "serde"] }
 chrono = "0.4"
 regex = "1.10"
 lazy_static = "1.4"
-dirs = "5.0" # For finding home directory
+dirs = "5.0"                                           # For finding home directory
 kokoro-tts = "0.3.1"
 rodio = "0.21.1"
 ndarray-npy = "0.10.0"
 bincode = "2.0.1"
 ndarray = "0.17.1"
+config = "0.13.2"                                      #for config

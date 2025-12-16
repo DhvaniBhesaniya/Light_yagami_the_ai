@@ -1,7 +1,7 @@
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-pub enum LightYagamiError {
+pub enum Error {
     #[error("Configuration error: {0}")]
     Config(String),
     #[error("IO error: {0}")]
