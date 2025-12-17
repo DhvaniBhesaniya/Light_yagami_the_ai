@@ -6,7 +6,7 @@ use anyhow::Result;
 use crate::configuration;
 
 #[derive(Debug, Deserialize, Default)]
-pub struct Config {
+pub struct AppConfig {
     pub llm: LlmConfig,
     pub voice: VoiceConfig,
     pub plugins: PluginsConfig,
@@ -75,7 +75,7 @@ pub struct PluginsConfig {
 //     }
 // }
 
-impl Config {
+impl AppConfig {
     pub fn load() -> Result<Self> {
         // let config_path = dirs::home_dir()
         //     .ok_or_else(|| anyhow::anyhow!("Could not find home directory"))?
@@ -84,7 +84,7 @@ impl Config {
         // if !config_path.exists() {
         // Return default config if file doesn't exist
         // In a real app, we might want to create the default file here
-        return Ok(Config::default());
+        return Ok(AppConfig::default());
         // }
 
         // let content = fs::read_to_string(config_path)?;
