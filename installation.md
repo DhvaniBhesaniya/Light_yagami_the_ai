@@ -39,11 +39,35 @@ Light_yagami_the_ai/
 Before installing the project, ensure your system meets the following requirements:
 
 ### System Dependencies (Linux/Ubuntu)
-You need to install development libraries for audio (ALSA), SSL (OpenSSL), and standard build tools.
+You need to install development libraries for audio (ALSA), SSL (OpenSSL), `espeak-ng`, and build tools.
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y libasound2-dev libssl-dev pkg-config build-essential
+sudo apt-get install -y \
+  espeak-ng \
+  libespeak-ng-dev \
+  libasound2-dev \
+  libssl-dev \
+  pkg-config \
+  clang \
+  libclang-dev \
+  cmake \
+  build-essential
+```
+
+Verify installation:
+```bash
+espeak-ng --version
+pkg-config --libs --cflags espeak-ng
+```
+
+### Environment Configuration
+Set the following environment variables to ensure the build system uses the system-installed libraries:
+
+```bash
+export ESPEAK_NG_USE_SYSTEM=1
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
+export CMAKE_BUILD_PARALLEL_LEVEL=1    (optional)
 ```
 
 ### Rust & Cargo
