@@ -19,6 +19,7 @@ impl AudioRecorder {
         );
 
         let config = device.default_input_config()?;
+        let channels = config.channels();
         let sample_rate = config.sample_rate().0;
         let err_fn = |err| eprintln!("an error occurred on stream: {}", err);
 
@@ -27,14 +28,21 @@ impl AudioRecorder {
                 &config.into(),
                 move |data: &[i16], _: &_| {
                     if !data.is_empty() {
+                        // Convert to mono if necessary
+                        let mono_data: Vec<i16> = if channels == 2 {
+                            data.chunks(2).map(|chunk| chunk[0]).collect()
+                        } else {
+                            data.to_vec()
+                        };
+
                         // Noise gate: Check if max amplitude exceeds threshold
-                        let max_amp = data.iter().map(|&x| x.abs()).max().unwrap_or(0);
+                        let max_amp = mono_data.iter().map(|&x| x.abs()).max().unwrap_or(0);
                         let threshold = 500; // Adjust as needed
 
                         if max_amp > threshold {
                             // Apply gain to i16 data
-                            let gain = 5.0;
-                            let amplified_data: Vec<i16> = data
+                            let gain = 2.0; // Reduced gain to prevent clipping
+                            let amplified_data: Vec<i16> = mono_data
                                 .iter()
                                 .map(|&x| {
                                     ((x as f32 * gain).clamp(i16::MIN as f32, i16::MAX as f32))
@@ -52,14 +60,21 @@ impl AudioRecorder {
                 &config.into(),
                 move |data: &[f32], _: &_| {
                     if !data.is_empty() {
+                        // Convert to mono if necessary
+                        let mono_data: Vec<f32> = if channels == 2 {
+                            data.chunks(2).map(|chunk| chunk[0]).collect()
+                        } else {
+                            data.to_vec()
+                        };
+
                         // Noise gate
-                        let max_amp_f32 = data.iter().map(|&x| x.abs()).fold(0.0, f32::max);
+                        let max_amp_f32 = mono_data.iter().map(|&x| x.abs()).fold(0.0, f32::max);
                         let threshold_f32 = 0.02; // Adjust as needed
 
                         if max_amp_f32 > threshold_f32 {
                             // Apply gain and convert f32 to i16
-                            let gain = 5.0;
-                            let i16_data: Vec<i16> = data
+                            let gain = 2.0;
+                            let i16_data: Vec<i16> = mono_data
                                 .iter()
                                 .map(|&x| {
                                     let amplified = x * gain;

@@ -20,14 +20,14 @@ vosk = "0.3.1"
 
 # Audio I/O
 cpal = "0.16.0"
-hound = "3.5"
+# hound = "3.5"
 
 # CLI & TUI
 clap = { version = "4.4", features = ["derive"] }
-ratatui = "0.26"
+# ratatui = "0.26"
 
 # Database
-rusqlite = { version = "0.30", features = ["bundled"] }
+# rusqlite = { version = "0.30", features = ["bundled"] }
 
 # Configuration
 serde = { version = "1.0", features = ["derive"] }
@@ -35,7 +35,7 @@ serde_json = "1.0"
 toml = "0.8"
 
 # HTTP (for weather, etc.)
-reqwest = { version = "0.11", features = ["json"] }
+# reqwest = { version = "0.11", features = ["json"] }
 
 # Utilities
 anyhow = "1.0"
@@ -48,9 +48,14 @@ chrono = "0.4"
 regex = "1.10"
 lazy_static = "1.4"
 dirs = "5.0"                                           # For finding home directory
-kokoro-tts = "0.3.1"
+kokoro-tiny = "0.1"
+
 rodio = "0.21.1"
-ndarray-npy = "0.10.0"
-bincode = "2.0.1"
-ndarray = "0.17.1"
-config = "0.13.2"                                      #for config
+config = "0.13.2" #for config
+# used for bin file (convert_voices) to convert npz to bin
+# ndarray-npy = "0.10.0"
+# bincode = "2.0.1"
+# ndarray = "0.17.1"
+
+[patch.crates-io]
+espeak-rs-sys = { path = "vendor/piper-rs/crates/espeak-rs-sys" }

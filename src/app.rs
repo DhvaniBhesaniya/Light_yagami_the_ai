@@ -1,5 +1,5 @@
-use crate::utils::config::AppConfig;
 use crate::llm::engine::LLMEngine;
+use crate::utils::config::AppConfig;
 use crate::utils::ui::Loader;
 use log::{error, info};
 use std::io::{self, Write};
@@ -74,7 +74,7 @@ pub async fn run_voice_mode(engine: &LLMEngine, config: &AppConfig) -> anyhow::R
         }
     };
 
-    let tts = match SpeechSynthesizer::new(&config.voice.tts_model_path).await {
+    let mut tts = match SpeechSynthesizer::new(&config.voice.tts_model_path).await {
         Ok(t) => t,
         Err(e) => {
             error!("Failed to initialize TTS: {}", e);
