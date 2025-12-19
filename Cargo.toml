@@ -1,8 +1,8 @@
 [package]
-name = "light_yagami_the_ai"
+name = "kira_ai"
 version = "0.1.0"
 edition = "2024"
-default-run = "light_yagami_the_ai"
+default-run = "kira_ai"
 
 [dependencies]
 # Core async runtime

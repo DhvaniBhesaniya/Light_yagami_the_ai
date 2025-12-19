@@ -1,7 +1,7 @@
 use anyhow::Result;
-use light_yagami_the_ai::utils::config::AppConfig;
-use light_yagami_the_ai::voice::audio::AudioRecorder;
-use light_yagami_the_ai::voice::stt::SpeechRecognizer;
+use kira_ai::utils::config::AppConfig;
+use kira_ai::voice::audio::AudioRecorder;
+use kira_ai::voice::stt::SpeechRecognizer;
 use std::sync::mpsc;
 
 fn main() -> Result<()> {

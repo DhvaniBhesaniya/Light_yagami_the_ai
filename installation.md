@@ -1,13 +1,13 @@
-# light_yagami_the_ai Installation Guide
+# kira_ai Installation Guide
 
-This guide provides a comprehensive overview of the project structure, prerequisites, and step-by-step instructions to set up and run the **Light Yagami AI** project on a new system.
+This guide provides a comprehensive overview of the project structure, prerequisites, and step-by-step instructions to set up and run the **Kira AI** project on a new system.
 
 ## 1. Project Architecture
 
 The following is the folder tree map of the project, identifying key directories and files:
 
 ```
-Light_yagami_the_ai/
+kira_ai/
 ├── Cargo.toml              # Rust project dependencies and metadata
 ├── config/
 │   └── config.json         # Configuration file for models, paths, and logs
@@ -19,13 +19,12 @@ Light_yagami_the_ai/
 │   ├── utils/              # Utilities (Config, Logger, CLI, etc.)
 │   └── bin/                # Standalone binaries (for testing)
 ├── dependencies/           # External models directory (Created during setup)
-│   ├── light_yagami/
-│   │   └── models/
-│   │       ├── llama_model/
-│   │       │   └── mistral-7b-q4_k_m.gguf      # Main LLM Model
-│   │       └── kokoro_voices_model/
-│   │           ├── kokoro-v1.0.onnx            # TTS Model (ONNX)
-│   │           └── voices-v1.0.bin             # TTS Voices Data
+│   └── models/
+│   │     ├── llama_model/
+│   │     │   └── mistral-7b-q4_k_m.gguf      # Main LLM Model
+│   │     └── kokoro_voices_model/
+│   │         ├── kokoro-v1.0.onnx            # TTS Model (ONNX)
+│   │         └── voices-v1.0.bin             # TTS Voices Data
 │   └── vosk/
 │       └── vosk-model-en-in-0.5/               # STT Model (Vosk Directory)
 ├── libs/                   # Dynamic libraries for Vosk
@@ -85,15 +84,15 @@ Follow these steps to set up the project from scratch.
 ### Step 1: Clone the Repository
 ```bash
 git clone <repository_url>
-cd Light_yagami_the_ai
+cd kira_ai
 ```
 
 ### Step 2: Create Directory Structure for Models
 We need to create the specific directory structure that `config/config.json` expects.
 
 ```bash
-mkdir -p dependencies/light_yagami/models/llama_model
-mkdir -p dependencies/light_yagami/models/kokoro_voices_model
+mkdir -p dependencies/models/llama_model
+mkdir -p dependencies/models/kokoro_voices_model
 mkdir -p dependencies/vosk
 mkdir -p libs
 ```
@@ -106,10 +105,10 @@ You need to download three main components: The LLM model (Mistral), the Speech-
 Download `mistral-7b-instruct-v0.2.Q4_K_M.gguf` and rename it to `mistral-7b-q4_k_m.gguf`.
 
 *   **URL:** [Hugging Face - TheBloke/Mistral-7B-Instruct-v0.2-GGUF](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF/resolve/main/mistral-7b-instruct-v0.2.Q4_K_M.gguf?download=true)
-*   **Destination:** `dependencies/light_yagami/models/llama_model/mistral-7b-q4_k_m.gguf`
+*   **Destination:** `dependencies/models/llama_model/mistral-7b-q4_k_m.gguf`
 
 ```bash
-wget "https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF/resolve/main/mistral-7b-instruct-v0.2.Q4_K_M.gguf?download=true" -O dependencies/light_yagami/models/llama_model/mistral-7b-q4_k_m.gguf
+wget "https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF/resolve/main/mistral-7b-instruct-v0.2.Q4_K_M.gguf?download=true" -O dependencies/models/llama_model/mistral-7b-q4_k_m.gguf
 ```
 
 #### B. Download Speech-to-Text Model (Vosk)
@@ -130,15 +129,15 @@ Kokoro requires two files: the ONNX model and the voices binary.
 
 1.  **Kokoro ONNX Model:**
     *   **URL:** [kokoro-v1.0.onnx](https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx)
-    *   **Destination:** `dependencies/light_yagami/models/kokoro_voices_model/kokoro-v1.0.onnx`
+    *   **Destination:** `dependencies/models/kokoro_voices_model/kokoro-v1.0.onnx`
 
 2.  **Voices Binary:**
     *   **URL:** [voices-v1.0.bin](https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin)
-    *   **Destination:** `dependencies/light_yagami/models/kokoro_voices_model/voices-v1.0.bin`
+    *   **Destination:** `dependencies/models/kokoro_voices_model/voices-v1.0.bin`
 
 ```bash
-wget "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx" -O dependencies/light_yagami/models/kokoro_voices_model/kokoro-v1.0.onnx
-wget "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin" -O dependencies/light_yagami/models/kokoro_voices_model/voices-v1.0.bin
+wget "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx" -O dependencies/models/kokoro_voices_model/kokoro-v1.0.onnx
+wget "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin" -O dependencies/models/kokoro_voices_model/voices-v1.0.bin
 ```
 
 ### Step 4: Set up Libs (Vosk Dependencies)
@@ -181,9 +180,9 @@ Default `config.json`:
     "roller_filepath_pattern": "logs/LogsFiles/All-Logs_{}.log",
     "roller_max_count": 999
   },
-  "laamaModelPath": "dependencies/light_yagami/models/llama_model/mistral-7b-q4_k_m.gguf",
+  "laamaModelPath": "dependencies/models/llama_model/mistral-7b-q4_k_m.gguf",
   "voiceModelPath": "dependencies/vosk/vosk-model-en-in-0.5",
-  "voiceTtsModelPath": "dependencies/light_yagami/models/kokoro_voices_model/kokoro-v1.0.onnx"
+  "voiceTtsModelPath": "dependencies/models/kokoro_voices_model/kokoro-v1.0.onnx"
 }
 ```
 
