@@ -1,4 +1,4 @@
-# AI-Powered CLI Assistant (Offline LightYagami) - Complete Roadmap
+# AI-Powered CLI Assistant (named Kira) - Complete Roadmap
 
 **Project Status:** Medium Difficulty | Production-Grade Architecture  
 **Tech Stack:** Rust | llama.cpp Bindings | Mistral 7B | async/await  
@@ -55,7 +55,7 @@ An intelligent CLI assistant that combines:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        CLI LightYagami SYSTEM                            │
+│                        CLI  SYSTEM                                  │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │  ┌──────────────┐         ┌──────────────────┐                      │
@@ -353,10 +353,10 @@ serde = { version = "1.0", features = ["derive"] }
 toml = "0.8"
 ```
 
-**Config file example (`~/.light_yagami/config.toml`):**
+**Config file example (`~/.kira_ai/config.toml`):**
 ```toml
 [llm]
-model_path = "~/.light_yagami/models/mistral-7b-q4_k_m.gguf"
+model_path = "~/.kira_ai/models/mistral-7b-q4_k_m.gguf"
 max_context = 8192
 temperature = 0.7
 top_p = 0.9
@@ -372,8 +372,8 @@ sample_rate = 16000
 enabled = ["weather", "reminder", "notes", "system"]
 
 [system]
-log_path = "~/.light_yagami/logs"
-db_path = "~/.light_yagami/data.db"
+log_path = "~/.kira_ai/logs"
+db_path = "~/.kira_ai/data.db"
 ```
 
 ---
@@ -409,7 +409,7 @@ chrono = "0.4"           # Timestamps
 
 ```toml
 [package]
-name = "light_yagami"
+name = "kira_ai"
 version = "0.1.0"
 edition = "2021"
 authors = ["Your Name <email@example.com>"]
@@ -559,24 +559,24 @@ cargo --version
 ### Step 2: Model Setup
 
 ```bash
-# Create LightYagami directories
-mkdir -p ~/.light_yagami/models
-mkdir -p ~/.light_yagami/voices
-mkdir -p ~/.light_yagami/logs
-mkdir -p ~/.vosk
+# Create directories in project
+mkdir -p dependencies/models/llama_model
+mkdir -p dependencies/models/kokoro_voices_model
+mkdir -p dependencies/vosk
+mkdir -p libs
 
 # Download Mistral 7B (Q4_K_M quantized - ~4.2GB)
-cd ~/.light_yagami/models
+cd dependencies/models/llama_model
 wget https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/Mistral-7B-Instruct-v0.1.Q4_K_M.gguf
 
 # Download Vosk model (speech recognition)
-cd ~/.vosk
+cd dependencies/vosk
 wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
 unzip vosk-model-small-en-us-0.15.zip
 rm *.zip
 
 # Download Kokoro TTS model (speech synthesis)
-# Place in ~/.light_yagami/voices/ (auto-downloaded on first run)
+# Place in dependencies/models/kokoro_voices_model/ (auto-downloaded on first run)
 
 echo "Models downloaded successfully!"
 ```
@@ -585,8 +585,8 @@ echo "Models downloaded successfully!"
 
 ```bash
 # Create new Cargo project
-cargo new light_yagami --name light_yagami
-cd light_yagami
+cargo new kira_ai --name kira_ai
+cd kira_ai
 
 # Use the Cargo.toml from above
 # (Replace contents of Cargo.toml)
@@ -608,21 +608,30 @@ cargo test --release
 
 **Key Files:**
 ```
-light_yagami/
-├── src/
-│   ├── main.rs           # Entry point
-│   ├── lib.rs            # Library re-exports
-│   ├── config.rs         # Configuration management
-│   ├── logger.rs         # Logging setup
-│   ├── cli.rs            # CLI argument parsing
-│   ├── error.rs          # Error types
-│   └── models/           # Data structures
-│       ├── mod.rs
-│       ├── config.rs
-│       └── context.rs
-├── Cargo.toml
-├── .env.example
-└── README.md
+kira_ai/
+├── Cargo.toml              # Rust project dependencies and metadata
+├── config/
+│   └── config.json         # Configuration file for models, paths, and logs
+├── src/                    # Source code
+│   ├── main.rs             # Entry point of the application
+│   ├── app.rs              # Main application logic (modes)
+│   ├── llm/                # LLM (Mistral) integration
+│   ├── voice/              # Voice modules (STT, TTS, Audio)
+│   ├── utils/              # Utilities (Config, Logger, CLI, etc.)
+│   └── bin/                # Standalone binaries (for testing)
+├── dependencies/           # External models directory
+│   └── models/
+│   │     ├── llama_model/
+│   │     │   └── mistral-7b-q4_k_m.gguf      # Main LLM Model
+│   │     └── kokoro_voices_model/
+│   │         ├── kokoro-v1.0.onnx            # TTS Model (ONNX)
+│   │         └── voices-v1.0.bin             # TTS Voices Data
+│   └── vosk/
+│       └── vosk-model-en-in-0.5/               # STT Model (Vosk Directory)
+├── libs/                   # Dynamic libraries for Vosk
+│   └── vosk-linux-x86_64-0.3.45/
+│       └── libvosk.so
+└── logs/                   # Log files (Created automatically)
 ```
 
 **Phase 1 Checklist:**
@@ -878,7 +887,7 @@ cargo build --release --strip
 ### Module Organization
 
 ```
-light_yagami/
+kira_ai/
 ├── src/
 │   ├── main.rs
 │   ├── lib.rs
