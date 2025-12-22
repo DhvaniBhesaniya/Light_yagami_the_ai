@@ -26,6 +26,6 @@ target
 /target
 Cargo.lock
 logs/*
-dependencies/light_yagami/models/llama_model/*
-dependencies/light_yagami/models/kokoro_voices_model/kokoro-v1.0.onnx
+dependencies/*
 dependencies/vosk/*
+libs/*

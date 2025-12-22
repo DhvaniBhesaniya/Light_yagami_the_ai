@@ -69,8 +69,8 @@ pub struct PluginsConfig {
 // impl Default for SystemConfig {
 //     fn default() -> Self {
 //         Self {
-//             log_path: "~/.light_yagami/logs".to_string(),
-//             db_path: "~/.light_yagami/data.db".to_string(),
+//             log_path: "~/.kira_ai/logs".to_string(),
+//             db_path: "~/.kira_ai/data.db".to_string(),
 //         }
 //     }
 // }
@@ -79,7 +79,7 @@ impl AppConfig {
     pub fn load() -> Result<Self> {
         // let config_path = dirs::home_dir()
         //     .ok_or_else(|| anyhow::anyhow!("Could not find home directory"))?
-        //     .join(".light_yagami/config.toml");
+        //     .join(".kira_ai/config.toml");
 
         // if !config_path.exists() {
         // Return default config if file doesn't exist

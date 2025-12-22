@@ -7,8 +7,8 @@
 
 // fn main() -> Result<(), Box<dyn std::error::Error>> {
 //     let home = dirs::home_dir().ok_or("No home dir")?;
-//     let npz_path = home.join(".light_yagami/models/voices.npz");
-//     let bin_path = home.join(".light_yagami/models/voices-v1.0.bin");
+//     let npz_path = home.join(".dependencies/models/voices.npz");
+//     let bin_path = home.join(".dependencies/models/voices-v1.0.bin");
 
 //     println!("Reading from {:?}", npz_path);
 //     let file = File::open(&npz_path)?;

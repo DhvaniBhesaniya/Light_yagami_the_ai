@@ -1,4 +1,4 @@
-# Light Yagami AI - Project Information
+# Kira  AI - Project Information
 
 ## Project Status
 - **Current Phase:** Phase 1 (Foundation) - In Progress/Refactoring

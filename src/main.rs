@@ -7,11 +7,11 @@ use clap::Parser;
 use log::{error, info};
 use std::io::{self, Write};
 
+pub mod app;
 pub mod configuration;
 pub mod llm;
 pub mod utils;
 pub mod voice;
-pub mod app;
 
 // Re-export common types
 pub use utils::config::AppConfig;
@@ -20,7 +20,7 @@ pub use utils::error::Error;
 async fn main() -> anyhow::Result<()> {
     // Initialize logger
     logger::startLogger();
-    info!("Starting Light Yagami AI...");
+    info!("Starting Kira Command line AI...");
 
     // Parse command line arguments
     let cli = Cli::parse();
@@ -79,7 +79,7 @@ async fn main() -> anyhow::Result<()> {
             // Interactive Menu
             if let Some(engine) = engine {
                 loop {
-                    println!("\n=== Light Yagami AI ===");
+                    println!("\n=== Kira Command Line AI : Select Mode ===");
                     println!("1. Chat Mode");
                     println!("2. Voice Mode");
                     println!("3. Exit");
@@ -114,5 +114,3 @@ async fn main() -> anyhow::Result<()> {
 
     Ok(())
 }
-
-
