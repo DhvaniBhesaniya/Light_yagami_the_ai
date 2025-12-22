@@ -1,0 +1,19 @@
+{
+  "logger": {
+    "exceptionLogFileName": "exceptions.log",
+    "httpErrorLogFileName": "httpError.log",
+    "httpLogFileName": "http.log",
+    "httpLogformat": "",
+    "logFileName": "logs.log",
+    "logFilePrefix": "",
+    "logFileSize": 17408,
+    "path": "./logs",
+    "all_logs_common_file_path": "logs/step/All-Logs.log",
+    "roller_base_start": 1,
+    "roller_max_count": 999,
+    "roller_filepath_pattern": "logs/LogsFiles/All-Logs_{}.log"
+  },
+  "laamaModelPath": "dependencies/models/llama_model/mistral-7b-q4_k_m.gguf",
+  "voiceModelPath": "dependencies/vosk/vosk-model-en-in-0.5",
+  "voiceTtsModelPath": "dependencies/models/kokoro_voices_model/kokoro-v1.0.onnx"
+}

@@ -1,4 +1,4 @@
-# AI-Powered CLI Assistant (Offline JARVIS) - Complete Roadmap
+# AI-Powered CLI Assistant (Offline LightYagami) - Complete Roadmap
 
 **Project Status:** Medium Difficulty | Production-Grade Architecture  
 **Tech Stack:** Rust | llama.cpp Bindings | Mistral 7B | async/await  
@@ -55,7 +55,7 @@ An intelligent CLI assistant that combines:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        CLI JARVIS SYSTEM                            │
+│                        CLI LightYagami SYSTEM                            │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │  ┌──────────────┐         ┌──────────────────┐                      │
@@ -353,10 +353,10 @@ serde = { version = "1.0", features = ["derive"] }
 toml = "0.8"
 ```
 
-**Config file example (`~/.jarvis/config.toml`):**
+**Config file example (`~/.light_yagami/config.toml`):**
 ```toml
 [llm]
-model_path = "~/.jarvis/models/mistral-7b-q4_k_m.gguf"
+model_path = "~/.light_yagami/models/mistral-7b-q4_k_m.gguf"
 max_context = 8192
 temperature = 0.7
 top_p = 0.9
@@ -372,8 +372,8 @@ sample_rate = 16000
 enabled = ["weather", "reminder", "notes", "system"]
 
 [system]
-log_path = "~/.jarvis/logs"
-db_path = "~/.jarvis/data.db"
+log_path = "~/.light_yagami/logs"
+db_path = "~/.light_yagami/data.db"
 ```
 
 ---
@@ -409,7 +409,7 @@ chrono = "0.4"           # Timestamps
 
 ```toml
 [package]
-name = "jarvis"
+name = "light_yagami"
 version = "0.1.0"
 edition = "2021"
 authors = ["Your Name <email@example.com>"]
@@ -559,14 +559,14 @@ cargo --version
 ### Step 2: Model Setup
 
 ```bash
-# Create JARVIS directories
-mkdir -p ~/.jarvis/models
-mkdir -p ~/.jarvis/voices
-mkdir -p ~/.jarvis/logs
+# Create LightYagami directories
+mkdir -p ~/.light_yagami/models
+mkdir -p ~/.light_yagami/voices
+mkdir -p ~/.light_yagami/logs
 mkdir -p ~/.vosk
 
 # Download Mistral 7B (Q4_K_M quantized - ~4.2GB)
-cd ~/.jarvis/models
+cd ~/.light_yagami/models
 wget https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/Mistral-7B-Instruct-v0.1.Q4_K_M.gguf
 
 # Download Vosk model (speech recognition)
@@ -576,7 +576,7 @@ unzip vosk-model-small-en-us-0.15.zip
 rm *.zip
 
 # Download Kokoro TTS model (speech synthesis)
-# Place in ~/.jarvis/voices/ (auto-downloaded on first run)
+# Place in ~/.light_yagami/voices/ (auto-downloaded on first run)
 
 echo "Models downloaded successfully!"
 ```
@@ -585,8 +585,8 @@ echo "Models downloaded successfully!"
 
 ```bash
 # Create new Cargo project
-cargo new jarvis --name jarvis
-cd jarvis
+cargo new light_yagami --name light_yagami
+cd light_yagami
 
 # Use the Cargo.toml from above
 # (Replace contents of Cargo.toml)
@@ -608,7 +608,7 @@ cargo test --release
 
 **Key Files:**
 ```
-jarvis/
+light_yagami/
 ├── src/
 │   ├── main.rs           # Entry point
 │   ├── lib.rs            # Library re-exports
@@ -878,7 +878,7 @@ cargo build --release --strip
 ### Module Organization
 
 ```
-jarvis/
+light_yagami/
 ├── src/
 │   ├── main.rs
 │   ├── lib.rs
